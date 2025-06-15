@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, FlatList, TouchableOpacity, StyleSheet, Image } from 'react-native';
-import { rw } from '../utils/responsiveUtils';
+// import { rw } from '../utils/responsiveUtils';
 import FastImage from 'react-native-fast-image';
+import { rw } from '../utils/responsiveUtil';
 // import Toast from 'react-native-toast-message';
 
 const CarouselComponent = ({ data, handleShopNow }) => {
@@ -83,7 +84,7 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.1,
         shadowRadius: 4,
-        elevation: 3,
+        // elevation: 3,
         overflow: 'hidden',
     },
     cardImage: {

@@ -1,15 +1,21 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { rw } from '../utils/responsiveUtil';
 import { FONTS } from '../utils/fonts';
 
 const NavigationTabs = () => {
     const [activeTab, setActiveTab] = useState('Featured');
+    const navigation = useNavigation();
 
     const tabs = ['Featured', 'Categories', 'Orders'];
 
     const handleTabPress = (tab) => {
         setActiveTab(tab);
+        if (tab === 'Orders') {
+            navigation.navigate('CartScreen');
+        }
+        // Add additional navigation or logic for other tabs if needed
     };
 
     return (
@@ -39,7 +45,7 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         paddingHorizontal: rw(16),
-        marginTop:rw(22),
+        marginTop: rw(22),
         justifyContent: 'space-between',
         alignItems: 'center',
     },
@@ -59,7 +65,7 @@ const styles = StyleSheet.create({
     tabText: {
         fontSize: rw(14),
         fontWeight: '500',
-        fontFamily:FONTS.medium
+        fontFamily: FONTS.medium
     },
     activeTabText: {
         color: '#ffffff',
