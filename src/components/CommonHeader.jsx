@@ -42,7 +42,7 @@ const CommonHeader = () => {
     return (
         <View style={styles.container}>
             <TouchableOpacity onPress={handleBackPress}>
-                <BackIcon size={rw(24)} />
+                <BackIcon size={rw(22)} />
             </TouchableOpacity>
 
             {isCartScreen ? (

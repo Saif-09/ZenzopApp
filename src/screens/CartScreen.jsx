@@ -12,12 +12,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { rw } from '../utils/responsiveUtil';
 import { FONTS } from '../utils/fonts';
 import { removeFromCart, updateQuantity } from '../redux/slices/cartSlice';
-import SafewayIcon from '../assets/svgs/SafewayIcon';
-import CommonHeader from '../components/CommonHeader';
-import MinimumOrderNotice from '../components/MinimumOrderNotice';
-import LocationSection from '../components/LocationSection';
-import CartItem from '../components/CartItem';
-import StoreHeader from '../components/StoreHeader';
+import { StoreHeader , CartItem, LocationSection, MinimumOrderNotice, CommonHeader } from '../components';
 
 
 const CartScreen = () => {

@@ -4,9 +4,14 @@ import AppNavigator from './src/navigation/AppNavigator';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Provider } from 'react-redux';
 import { store } from './src/redux/store';
+import { useEffect } from 'react';
+import { initializeCart } from './src/redux/slices/cartSlice';
 
 
 function App() {
+  useEffect(() => {
+    store.dispatch(initializeCart());
+  }, []);
   const isDarkMode = useColorScheme() === 'dark';
 
   return (

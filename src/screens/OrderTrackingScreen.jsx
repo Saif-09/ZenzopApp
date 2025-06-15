@@ -8,7 +8,7 @@ import {
     Image,
     Dimensions,
 } from 'react-native';
-import { CommonHeader } from '../components';
+import { CommonHeader, ProgressBar, DeliveryDetails, ShareSection, InviteFriends } from '../components';
 import CookingIllustration from '../assets/svgs/CookingIllustration';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -20,87 +20,199 @@ import TipIcon from '../assets/svgs/TipIcon';
 
 const { width } = Dimensions.get('window');
 
+const CART_STORAGE_KEY = 'cartItems';
+const ORDER_STORAGE_KEY = 'orderData';
+const DELIVERY_TIMER_KEY = 'deliveryTimer';
+
 const OrderTrackingScreen = () => {
     const route = useRoute();
-    const { cartItems = [], subtotal = 0 } = route.params || {};
+    const { cartItems: routeCartItems = [], subtotal: routeSubtotal = 0 } = route.params || {};
+    const [cartItems, setCartItems] = useState(routeCartItems);
+    const [subtotal, setSubtotal] = useState(routeSubtotal);
     const [trackingState, setTrackingState] = useState('preparing');
     const [arrivalTime, setArrivalTime] = useState('');
     const [latestArrivalTime, setLatestArrivalTime] = useState('');
     const [remainingSeconds, setRemainingSeconds] = useState(600); // 10 minutes in seconds
     const timerRef = useRef(null);
 
-    // Initialize timer and state from AsyncStorage
+    // Format time for arrival display
+    const formatTime = (date) => {
+        return date.toLocaleTimeString('en-US', {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false,
+        });
+    };
+
+    // Initialize cart and order state from AsyncStorage
     useEffect(() => {
         const initializeState = async () => {
             try {
-                const storedData = await AsyncStorage.getItem('deliveryTimer');
-                const now = new Date();
-                const arrival = new Date(now.getTime() + 10 * 60000); // 10 minutes from now
-                const latest = new Date(now.getTime() + 25 * 60000); // 25 minutes from now
+                // Load cart and order data
+                const storedCart = await AsyncStorage.getItem(CART_STORAGE_KEY);
+                const storedOrder = await AsyncStorage.getItem(ORDER_STORAGE_KEY);
+                const storedTimer = await AsyncStorage.getItem(DELIVERY_TIMER_KEY);
 
-                const formatTime = (date) => {
-                    return date.toLocaleTimeString('en-US', {
-                        hour: '2-digit',
-                        minute: '2-digit',
-                        hour12: false
-                    });
-                };
+                // If route params exist, treat as new order
+                if (routeCartItems.length > 0) {
+                    await AsyncStorage.setItem(CART_STORAGE_KEY, JSON.stringify(routeCartItems));
+                    await AsyncStorage.setItem(
+                        ORDER_STORAGE_KEY,
+                        JSON.stringify({ cartItems: routeCartItems, subtotal: routeSubtotal })
+                    );
+                    setCartItems(routeCartItems);
+                    setSubtotal(routeSubtotal);
 
-                setArrivalTime(formatTime(arrival));
-                setLatestArrivalTime(formatTime(latest));
+                    // Reset timer for new order
+                    const now = new Date();
+                    const arrival = new Date(now.getTime() + 10 * 60000); // 10 minutes from now
+                    const latest = new Date(now.getTime() + 25 * 60000); // 25 minutes from now
 
-                if (storedData) {
-                    const { startTime, initialSeconds } = JSON.parse(storedData);
+                    const arrivalTimeValue = formatTime(arrival);
+                    const latestArrivalTimeValue = formatTime(latest);
+
+                    setArrivalTime(arrivalTimeValue);
+                    setLatestArrivalTime(latestArrivalTimeValue);
+                    setTrackingState('preparing');
+                    setRemainingSeconds(600);
+
+                    await AsyncStorage.setItem(
+                        DELIVERY_TIMER_KEY,
+                        JSON.stringify({
+                            startTime: Date.now().toString(),
+                            initialSeconds: 600,
+                            state: 'preparing',
+                            arrivalTime: arrivalTimeValue,
+                            latestArrivalTime: latestArrivalTimeValue,
+                        })
+                    );
+                } else if (storedOrder && storedTimer) {
+                    // Load existing order and timer
+                    const { cartItems: savedCartItems, subtotal: savedSubtotal } = JSON.parse(storedOrder);
+                    setCartItems(savedCartItems || []);
+                    setSubtotal(savedSubtotal || 0);
+
+                    const { startTime, initialSeconds, state, arrivalTime, latestArrivalTime } =
+                        JSON.parse(storedTimer);
                     const elapsed = Math.floor((Date.now() - parseInt(startTime)) / 1000);
                     const remaining = Math.max(0, initialSeconds - elapsed);
 
                     setRemainingSeconds(remaining);
-                    if (remaining <= 0) {
-                        await AsyncStorage.removeItem('deliveryTimer');
-                        setTrackingState('preparing');
+                    setArrivalTime(arrivalTime);
+                    setLatestArrivalTime(latestArrivalTime);
+
+                    if (remaining <= 0 || state === 'delivered') {
+                        setTrackingState('delivered');
+                        await AsyncStorage.removeItem(DELIVERY_TIMER_KEY);
+                        await AsyncStorage.removeItem(ORDER_STORAGE_KEY);
+                        setArrivalTime('');
+                        setLatestArrivalTime('');
+                    } else if (elapsed >= 480) {
+                        setTrackingState('at_the_address');
                     } else if (elapsed >= 10) {
-                        setTrackingState('almost_there');
+                        setTrackingState('on_the_way');
                     } else {
                         setTrackingState('preparing');
                     }
-                } else {
-                    setTrackingState('preparing');
-                    // Start new timer with 10 minutes
-                    try {
-                        await AsyncStorage.setItem('deliveryTimer', JSON.stringify({
-                            startTime: Date.now().toString(),
-                            initialSeconds: 600 // 10 minutes
-                        }));
-                    } catch (error) {
-                        console.error('Error saving timer:', error);
+
+                    if (state) {
+                        setTrackingState(state);
                     }
+                } else if (storedCart) {
+                    // Fallback to cart items if no order data
+                    const parsedCart = JSON.parse(storedCart);
+                    setCartItems(parsedCart || []);
+                    const calculatedSubtotal = parsedCart.reduce(
+                        (sum, item) => sum + item.price * item.quantity,
+                        0
+                    );
+                    setSubtotal(calculatedSubtotal);
 
-                    // Transition to 'almost_there' after 10 seconds
-                    const stateTimer = setTimeout(() => {
-                        setTrackingState('almost_there');
-                    }, 10000);
+                    // Start new timer if no timer data exists
+                    const now = new Date();
+                    const arrival = new Date(now.getTime() + 10 * 60000);
+                    const latest = new Date(now.getTime() + 25 * 60000);
 
-                    return () => clearTimeout(stateTimer);
+                    const arrivalTimeValue = formatTime(arrival);
+                    const latestArrivalTimeValue = formatTime(latest);
+
+                    setArrivalTime(arrivalTimeValue);
+                    setLatestArrivalTime(latestArrivalTimeValue);
+                    setTrackingState('preparing');
+                    setRemainingSeconds(600);
+
+                    await AsyncStorage.setItem(
+                        DELIVERY_TIMER_KEY,
+                        JSON.stringify({
+                            startTime: Date.now().toString(),
+                            initialSeconds: 600,
+                            state: 'preparing',
+                            arrivalTime: arrivalTimeValue,
+                            latestArrivalTime: latestArrivalTimeValue,
+                        })
+                    );
+                } else {
+                    // No data available, reset to empty state
+                    setCartItems([]);
+                    setSubtotal(0);
+                    setTrackingState('delivered');
+                    setArrivalTime('');
+                    setLatestArrivalTime('');
+                    setRemainingSeconds(0);
+                    await AsyncStorage.removeItem(DELIVERY_TIMER_KEY);
+                    await AsyncStorage.removeItem(ORDER_STORAGE_KEY);
                 }
             } catch (error) {
                 console.error('Error initializing state:', error);
             }
         };
         initializeState();
-    }, []);
+    }, [routeCartItems, routeSubtotal]);
 
-    // Countdown timer effect for both states
+    // Countdown timer effect and state transitions
     useEffect(() => {
-        if (remainingSeconds > 0) {
+        if (remainingSeconds > 0 && trackingState !== 'delivered') {
             timerRef.current = setInterval(() => {
-                setRemainingSeconds(prev => {
+                setRemainingSeconds((prev) => {
                     const newTime = prev - 1;
+                    const elapsed = 600 - newTime;
+
                     if (newTime <= 0) {
-                        AsyncStorage.removeItem('deliveryTimer').catch(error =>
+                        setTrackingState('delivered');
+                        AsyncStorage.removeItem(DELIVERY_TIMER_KEY).catch((error) =>
                             console.error('Error clearing timer:', error)
                         );
+                        AsyncStorage.removeItem(ORDER_STORAGE_KEY).catch((error) =>
+                            console.error('Error clearing order data:', error)
+                        );
                         clearInterval(timerRef.current);
+                        setArrivalTime('');
+                        setLatestArrivalTime('');
                         return 0;
+                    } else if (elapsed >= 480 && trackingState !== 'at_the_address') {
+                        setTrackingState('at_the_address');
+                        AsyncStorage.setItem(
+                            DELIVERY_TIMER_KEY,
+                            JSON.stringify({
+                                startTime: (Date.now() - elapsed * 1000).toString(),
+                                initialSeconds: 600,
+                                state: 'at_the_address',
+                                arrivalTime: arrivalTime,
+                                latestArrivalTime: latestArrivalTime,
+                            })
+                        ).catch((error) => console.error('Error updating state:', error));
+                    } else if (elapsed >= 10 && trackingState === 'preparing') {
+                        setTrackingState('on_the_way');
+                        AsyncStorage.setItem(
+                            DELIVERY_TIMER_KEY,
+                            JSON.stringify({
+                                startTime: (Date.now() - elapsed * 1000).toString(),
+                                initialSeconds: 600,
+                                state: 'on_the_way',
+                                arrivalTime: arrivalTime,
+                                latestArrivalTime: latestArrivalTime,
+                            })
+                        ).catch((error) => console.error('Error updating state:', error));
                     }
                     return newTime;
                 });
@@ -112,7 +224,7 @@ const OrderTrackingScreen = () => {
                 clearInterval(timerRef.current);
             }
         };
-    }, [remainingSeconds]);
+    }, [remainingSeconds, trackingState, arrivalTime, latestArrivalTime]);
 
     // Format remaining time
     const formatRemainingTime = () => {
@@ -120,50 +232,6 @@ const OrderTrackingScreen = () => {
         const seconds = remainingSeconds % 60;
         return `${minutes}:${seconds < 10 ? '0' : ''}${seconds} away`;
     };
-
-    const ProgressBar = ({ progress }) => (
-        <View style={styles.progressContainer}>
-            <View style={styles.progressBackground}>
-                <View style={[styles.progressFill, { width: `${progress}%` }]} />
-            </View>
-        </View>
-    );
-
-    const DeliveryDetails = () => (
-        <View style={styles.detailsContainer}>
-            <Text style={styles.sectionTitle}>Delivery details</Text>
-            <View style={styles.detailRow}>
-                <Text style={styles.detailLabel}>Address</Text>
-                <Text style={styles.detailValue}>Bay Area, San Francisco, California, USA</Text>
-            </View>
-            <View style={styles.detailRow}>
-                <Text style={styles.detailLabel}>Type</Text>
-                <Text style={styles.detailValue}>Leave at door</Text>
-            </View>
-            <View style={styles.detailRow}>
-                <Text style={styles.detailLabel}>Instructions</Text>
-                <Text style={styles.detailValue}>
-                    Please knock to let me know it has arrive and then leave it at the doorstep
-                </Text>
-            </View>
-            <View style={styles.detailRow}>
-                <Text style={styles.detailLabel}>Service</Text>
-                <Text style={styles.detailValue}>Standard</Text>
-            </View>
-        </View>
-    );
-
-    const ShareSection = () => (
-        <View style={styles.shareContainer}>
-            <View>
-                <Text style={styles.shareTitle}>Share this delivery</Text>
-                <Text style={styles.shareSubtitle}>Let someone follow along</Text>
-            </View>
-            <TouchableOpacity style={styles.shareButton}>
-                <Text style={styles.shareButtonText}>Share</Text>
-            </TouchableOpacity>
-        </View>
-    );
 
     const OrderSummary = () => (
         <View style={styles.summaryContainer}>
@@ -190,30 +258,138 @@ const OrderTrackingScreen = () => {
         </View>
     );
 
-    const InviteFriends = () => (
-        <View style={styles.inviteContainer}>
-            <Text style={styles.sectionTitle}>Invite friends</Text>
-            <View style={styles.inviteContent}>
-                <Text style={styles.inviteIcon}>🍔</Text>
-                <Text style={styles.inviteText}>Invite a friend, get $5 off</Text>
-            </View>
-        </View>
-    );
+    const renderTrackingScreen = () => {
+        let title, progress;
+        switch (trackingState) {
+            case 'preparing':
+                title = 'Preparing your order...';
+                progress = 40;
+                break;
+            case 'on_the_way':
+                title = 'On the way...';
+                progress = 60;
+                break;
+            case 'at_the_address':
+                title = 'At the address...';
+                progress = 90;
+                break;
+            case 'delivered':
+                title = 'Delivered!';
+                progress = 100;
+                break;
+            default:
+                title = 'Preparing your order...';
+                progress = 40;
+        }
 
-    if (trackingState === 'preparing') {
+        if (trackingState === 'preparing') {
+            return (
+                <SafeAreaView style={styles.container}>
+                    <CommonHeader />
+                    <ScrollView style={styles.content}>
+                        <Text style={styles.title}>{title}</Text>
+                        <View style={styles.timeContainer}>
+                            <Text style={styles.arrivalText}>Arriving at {arrivalTime}</Text>
+                            <ProgressBar progress={progress} />
+                            <Text style={styles.latestText}>Latest arrival by {latestArrivalTime}</Text>
+                        </View>
+                        <View style={styles.illustrationContainer}>
+                            <CookingIllustration />
+                        </View>
+                        <DeliveryDetails />
+                        <ShareSection />
+                        <OrderSummary />
+                        <InviteFriends />
+                    </ScrollView>
+                </SafeAreaView>
+            );
+        }
+
         return (
             <SafeAreaView style={styles.container}>
                 <CommonHeader />
                 <ScrollView style={styles.content}>
-                    <Text style={styles.title}>Preparing your order...</Text>
+                    <Text style={styles.title}>{title}</Text>
                     <View style={styles.timeContainer}>
-                        <Text style={styles.arrivalText}>Arriving at {arrivalTime}</Text>
-                        <ProgressBar progress={40} />
-                        <Text style={styles.latestText}>Latest arrival by {latestArrivalTime}</Text>
+                        <Text style={styles.arrivalText}>
+                            {trackingState === 'delivered' ? '' : `Arriving at ${arrivalTime}`}
+                        </Text>
+                        <ProgressBar progress={progress} />
+                        <Text style={styles.latestText}>
+                            {trackingState === 'delivered' ? '' : `Latest arrival by ${latestArrivalTime}`}
+                        </Text>
                     </View>
-                    <View style={styles.illustrationContainer}>
-                        <CookingIllustration />
-                    </View>
+                    {trackingState !== 'delivered' && (
+                        <View style={styles.mapContainer}>
+                            <Image
+                                source={require('../assets/images/Map.png')}
+                                style={styles.mapImage}
+                                resizeMode="cover"
+                            />
+                            <View style={styles.deliveryInfo}>
+                                <Text style={styles.minutesAway}>{formatRemainingTime()}</Text>
+                            </View>
+                        </View>
+                    )}
+                    {trackingState !== 'delivered' && (
+                        <View style={styles.driverContainer}>
+                            <Image
+                                source={require('../assets/images/DriverAvatar.png')}
+                                style={styles.driverAvatar}
+                            />
+                            <View style={styles.driverInfo}>
+                                <View style={styles.driverHeader}>
+                                    <Text style={styles.driverName}>🟢 Jonathan</Text>
+                                    <Text style={styles.licensePlate}>• 7EL005</Text>
+                                </View>
+                                <Text style={styles.carInfo}>White Honda Civic</Text>
+                                <Text style={styles.rating}>95% 👍</Text>
+                            </View>
+                        </View>
+                    )}
+                    {trackingState !== 'delivered' && (
+                        <View style={styles.actionButtons}>
+                            <TouchableOpacity>
+                                <CallIcon />
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={{
+                                    width: rw(190),
+                                    height: rw(44),
+                                    borderRadius: rw(99),
+                                    backgroundColor: '#EEEEEE',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                }}
+                            >
+                                <Text
+                                    style={{
+                                        fontSize: rw(16),
+                                        fontFamily: FONTS.regular,
+                                        fontWeight: '400',
+                                        color: 'black',
+                                    }}
+                                >
+                                    Send Message
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={{
+                                    backgroundColor: '#EEEEEE',
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    width: rw(84),
+                                    height: rw(44),
+                                    borderRadius: rw(99),
+                                    gap: rw(10),
+                                }}
+                            >
+                                <TipIcon />
+                                <Text style={styles.tipButtonText}>Tip</Text>
+                            </TouchableOpacity>
+                        </View>
+                    )}
                     <DeliveryDetails />
                     <ShareSection />
                     <OrderSummary />
@@ -221,61 +397,9 @@ const OrderTrackingScreen = () => {
                 </ScrollView>
             </SafeAreaView>
         );
-    }
+    };
 
-    return (
-        <SafeAreaView style={styles.container}>
-            <CommonHeader />
-            <ScrollView style={styles.content}>
-                <Text style={styles.title}>Almost there...</Text>
-                <View style={styles.timeContainer}>
-                    <Text style={styles.arrivalText}>Arriving at {arrivalTime}</Text>
-                    <ProgressBar progress={80} />
-                    <Text style={styles.latestText}>Latest arrival by {latestArrivalTime}</Text>
-                </View>
-                <View style={styles.mapContainer}>
-                    <Image
-                        source={require('../assets/images/Map.png')}
-                        style={styles.mapImage}
-                        resizeMode="cover"
-                    />
-                    <View style={styles.deliveryInfo}>
-                        <Text style={styles.minutesAway}>{formatRemainingTime()}</Text>
-                    </View>
-                </View>
-                <View style={styles.driverContainer}>
-                    <Image
-                        source={require('../assets/images/DriverAvatar.png')}
-                        style={styles.driverAvatar}
-                    />
-                    <View style={styles.driverInfo}>
-                        <View style={styles.driverHeader}>
-                            <Text style={styles.driverName}>🟢 Jonathan</Text>
-                            <Text style={styles.licensePlate}>• 7EL005</Text>
-                        </View>
-                        <Text style={styles.carInfo}>White Honda Civic</Text>
-                        <Text style={styles.rating}>95% 👍</Text>
-                    </View>
-                </View>
-                <View style={styles.actionButtons}>
-                    <TouchableOpacity >
-                        <CallIcon />
-                    </TouchableOpacity>
-                    <TouchableOpacity style={{ width: rw(190), height: rw(44), borderRadius: rw(99), backgroundColor: '#EEEEEE', alignItems: 'center', justifyContent: 'center' }}>
-                        <Text style={{ fontSize: rw(16), fontFamily: FONTS.regular, fontWeight: '400', color: 'black' }}>Send Message</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={{backgroundColor: '#EEEEEE', flexDirection:'row', alignItems: 'center', justifyContent: 'center', width: rw(84), height: rw(44), borderRadius: rw(99), gap: rw(10)}}>
-                        <TipIcon/>
-                        <Text style={styles.tipButtonText}>Tip</Text>
-                    </TouchableOpacity>
-                </View>
-                <DeliveryDetails />
-                <ShareSection />
-                <OrderSummary />
-                <InviteFriends />
-            </ScrollView>
-        </SafeAreaView>
-    );
+    return renderTrackingScreen();
 };
 
 const styles = StyleSheet.create({
@@ -300,19 +424,6 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         marginBottom: 10,
     },
-    progressContainer: {
-        marginVertical: 10,
-    },
-    progressBackground: {
-        height: 4,
-        backgroundColor: '#e0e0e0',
-        borderRadius: 2,
-    },
-    progressFill: {
-        height: '100%',
-        backgroundColor: '#00C851',
-        borderRadius: 2,
-    },
     latestText: {
         fontSize: 14,
         color: '#666',
@@ -321,10 +432,6 @@ const styles = StyleSheet.create({
     illustrationContainer: {
         alignItems: 'center',
         marginVertical: 40,
-    },
-    cookingIllustration: {
-        width: 150,
-        height: 150,
     },
     mapContainer: {
         height: 200,
@@ -399,78 +506,15 @@ const styles = StyleSheet.create({
         marginBottom: 30,
         gap: 10,
     },
-    messageButton: {
-        flex: 1,
-        backgroundColor: '#f0f0f0',
-        padding: 15,
-        borderRadius: 8,
-        alignItems: 'center',
-    },
-    messageButtonText: {
-        fontSize: 16,
-        fontWeight: '500',
-    },
-    tipButton: {
-        backgroundColor: '#000',
-        paddingHorizontal: 30,
-        paddingVertical: 15,
-        borderRadius: 8,
-        alignItems: 'center',
-    },
     tipButtonText: {
         color: 'black',
         fontSize: rw(14),
         fontWeight: '500',
     },
-    detailsContainer: {
-        marginBottom: 30,
-    },
     sectionTitle: {
-        fontSize: 18,
+        fontSize: rw(18),
         fontWeight: 'bold',
-        marginBottom: 15,
-    },
-    detailRow: {
-        marginBottom: 15,
-    },
-    detailLabel: {
-        fontSize: 14,
-        color: '#666',
-        marginBottom: 3,
-    },
-    detailValue: {
-        fontSize: 16,
-        color: '#000',
-    },
-    shareContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        backgroundColor: '#f8f8f8',
-        padding: 20,
-        borderRadius: 12,
-        marginBottom: 30,
-    },
-    shareTitle: {
-        fontSize: 16,
-        fontWeight: '600',
-    },
-    shareSubtitle: {
-        fontSize: 14,
-        color: '#666',
-        marginTop: 2,
-    },
-    shareButton: {
-        backgroundColor: '#fff',
-        paddingHorizontal: 20,
-        paddingVertical: 10,
-        borderRadius: 8,
-        borderWidth: 1,
-        borderColor: '#ddd',
-    },
-    shareButtonText: {
-        fontSize: 16,
-        fontWeight: '500',
+        marginBottom: rw(15),
     },
     summaryContainer: {
         marginBottom: 30,
@@ -528,25 +572,6 @@ const styles = StyleSheet.create({
     totalAmount: {
         fontSize: 16,
         fontWeight: '600',
-    },
-    inviteContainer: {
-        marginBottom: 30,
-    },
-    inviteContent: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        backgroundColor: '#f8f8f8',
-        padding: 15,
-        borderRadius: 12,
-    },
-    inviteIcon: {
-        fontSize: 24,
-        marginRight: 15,
-    },
-    inviteText: {
-        fontSize: 16,
-        color: '#00C851',
-        fontWeight: '500',
     },
 });
 
