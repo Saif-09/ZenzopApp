@@ -101,7 +101,7 @@ const Homepage = () => {
                 <CategorySections title="Dairy, Eggs & Cheese" data={dairyEggsCheeseData} />
             </ScrollView>
             {isTimerRunning && (
-                <View style={{paddingHorizontal:rw(64)}}>
+                <View style={{paddingHorizontal:rw(44)}}>
                 <TouchableOpacity
                     style={styles.floatingButton}
                     onPress={handleTrackOrder}
@@ -121,12 +121,12 @@ export default Homepage;
 const styles = StyleSheet.create({
     floatingButton: {
         // position: 'absolute',
-        bottom: 20,
+        bottom: rw(20),
         // right: '50%',
         backgroundColor: 'black',
-        borderRadius: 30,
-        paddingVertical: 12,
-        paddingHorizontal: 20,
+        borderRadius: rw(30),
+        paddingVertical: rw(12),
+        paddingHorizontal: rw(20),
         elevation: 5,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
@@ -134,22 +134,22 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
         flexDirection: 'row',
         alignItems: 'center',
-        gap: 10,
+        gap: rw(10),
     },
     floatingButtonText: {
         color: '#FFFFFF',
-        fontSize: 16,
+        fontSize: rw(16),
         fontWeight: '600',
     },
     statusText: {
         color: '#FFFFFF',
-        fontSize: 14,
+        fontSize: rw(14),
         fontWeight: '400',
         opacity: 0.8,
     },
     timeText: {
         color: '#FFFFFF',
-        fontSize: 14,
+        fontSize: rw(14),
         fontWeight: '400',
         opacity: 0.8,
     },
