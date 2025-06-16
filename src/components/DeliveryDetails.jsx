@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
         fontSize: rw(18),
         fontWeight: 'bold',
         marginBottom: rw(15),
+        color: 'black',
     },
     detailRow: {
         marginBottom: rw(10),

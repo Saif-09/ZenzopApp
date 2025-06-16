@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
     shareTitle: {
         fontSize: rw(16),
         fontWeight: '600',
+        color: '#333',
     },
     shareSubtitle: {
         fontSize: rw(14),
@@ -46,5 +47,6 @@ const styles = StyleSheet.create({
     shareButtonText: {
         fontSize: rw(16),
         fontWeight: '500',
+        color: '#007bff',
     },
 })

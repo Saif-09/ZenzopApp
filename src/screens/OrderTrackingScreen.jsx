@@ -415,6 +415,7 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: 'bold',
         marginBottom: 20,
+        color: 'black',
     },
     timeContainer: {
         marginBottom: 30,
@@ -423,6 +424,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: '600',
         marginBottom: 10,
+        color:'black'
     },
     latestText: {
         fontSize: 14,
@@ -461,6 +463,7 @@ const styles = StyleSheet.create({
     minutesAway: {
         fontSize: 14,
         fontWeight: '600',
+        color: 'black',
     },
     driverContainer: {
         flexDirection: 'row',
@@ -486,6 +489,7 @@ const styles = StyleSheet.create({
     driverName: {
         fontSize: 16,
         fontWeight: '600',
+        color: 'black',
     },
     licensePlate: {
         fontSize: 14,
@@ -500,6 +504,7 @@ const styles = StyleSheet.create({
     rating: {
         fontSize: 14,
         marginTop: 2,
+        color: 'black',
     },
     actionButtons: {
         flexDirection: 'row',
@@ -515,6 +520,7 @@ const styles = StyleSheet.create({
         fontSize: rw(18),
         fontWeight: 'bold',
         marginBottom: rw(15),
+        color: 'black',
     },
     summaryContainer: {
         marginBottom: 30,
@@ -552,6 +558,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: '500',
         marginBottom: 5,
+        color: 'black',
     },
     itemPrice: {
         fontSize: 14,
@@ -568,10 +575,12 @@ const styles = StyleSheet.create({
     totalLabel: {
         fontSize: 16,
         fontWeight: '600',
+        color: '#333',
     },
     totalAmount: {
         fontSize: 16,
         fontWeight: '600',
+        color: 'black',
     },
 });
 

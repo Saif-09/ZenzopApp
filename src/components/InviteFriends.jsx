@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
     inviteIcon: {
         fontSize: 24,
         marginRight: 15,
+        color:'black',
     },
     inviteText: {
         fontSize: 16,
@@ -36,6 +37,7 @@ const styles = StyleSheet.create({
     },
     sectionTitle: {
             fontSize: rw(18),
+            color: 'black',
             fontWeight: 'bold',
             marginBottom: rw(15),
         },

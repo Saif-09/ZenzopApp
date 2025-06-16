@@ -46,7 +46,7 @@ struct LiveActivityLiveActivity: Widget {
             } compactLeading: {
                 Text("L")
             } compactTrailing: {
-                Text("T \(context.state.emoji)")
+                Text("8 min")
             } minimal: {
                 Text(context.state.emoji)
             }

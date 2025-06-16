@@ -60,7 +60,8 @@ const styles = StyleSheet.create({
         fontSize: rw(24),
         fontFamily: FONTS.bold,
         color: '#5D1ABA',
-        fontWeight: '600',
+        fontWeight: '800',
+        fontStyle: 'italic',
     },
     iconsContainer: {
         flexDirection: 'row',
