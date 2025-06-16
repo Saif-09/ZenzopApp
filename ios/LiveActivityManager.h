@@ -5,8 +5,12 @@
 //  Created by Saif Siddiqui on 16/06/25.
 //
 
-#ifndef LiveActivityManager_h
-#define LiveActivityManager_h
+#import <React/RCTBridgeModule.h>
 
+@interface RCT_EXTERN_MODULE(LiveActivityManager, NSObject)
 
-#endif /* LiveActivityManager_h */
+RCT_EXTERN_METHOD(startLiveActivity:(NSString *)orderId status:(NSString *)status elapsedTime:(NSInteger)elapsedTime)
+RCT_EXTERN_METHOD(updateLiveActivity:(NSString *)status elapsedTime:(NSInteger)elapsedTime)
+RCT_EXTERN_METHOD(endLiveActivity)
+
+@end

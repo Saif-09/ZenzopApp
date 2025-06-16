@@ -4,6 +4,8 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
+  <key>NSSupportsLiveActivities</key>
+  <true/>
 	<key>CFBundleDisplayName</key>
 	<string>ZenzopApp</string>
 	<key>CFBundleExecutable</key>
@@ -32,9 +34,31 @@
 		<true/>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<string></string>
 	<key>RCTNewArchEnabled</key>
 	<true/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>UberMoveTextBold.otf</string>
+		<string>UberMoveTextLight.otf</string>
+		<string>UberMoveTextMedium.otf</string>
+		<string>UberMoveTextRegular.otf</string>
+		<string>AntDesign.ttf</string>
+		<string>Entypo.ttf</string>
+		<string>EvilIcons.ttf</string>
+		<string>Feather.ttf</string>
+		<string>FontAwesome.ttf</string>
+		<string>FontAwesome5_Brands.ttf</string>
+		<string>FontAwesome5_Regular.ttf</string>
+		<string>FontAwesome5_Solid.ttf</string>
+		<string>Foundation.ttf</string>
+		<string>Ionicons.ttf</string>
+		<string>MaterialIcons.ttf</string>
+		<string>MaterialCommunityIcons.ttf</string>
+		<string>SimpleLineIcons.ttf</string>
+		<string>Octicons.ttf</string>
+		<string>Zocial.ttf</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>null</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -49,27 +73,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>UIAppFonts</key>
-	<array>
-		<string>UberMoveTextBold.otf</string>
-		<string>UberMoveTextLight.otf</string>
-		<string>UberMoveTextMedium.otf</string>
-		<string>UberMoveTextRegular.otf</string>
-		<string>AntDesign.ttf</string>
-  		<string>Entypo.ttf</string>
-  		<string>EvilIcons.ttf</string>
-  		<string>Feather.ttf</string>
-  		<string>FontAwesome.ttf</string>
-  		<string>FontAwesome5_Brands.ttf</string>
-  		<string>FontAwesome5_Regular.ttf</string>
-  		<string>FontAwesome5_Solid.ttf</string>
-  		<string>Foundation.ttf</string>
-  		<string>Ionicons.ttf</string>
-  		<string>MaterialIcons.ttf</string>
-  		<string>MaterialCommunityIcons.ttf</string>
-  		<string>SimpleLineIcons.ttf</string>
-  		<string>Octicons.ttf</string>
-  		<string>Zocial.ttf</string>
-	</array>
 </dict>
 </plist>
