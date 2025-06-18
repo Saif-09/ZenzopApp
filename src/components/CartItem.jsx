@@ -24,7 +24,7 @@ const CartItem = ({ item, onQuantityChange, onRemove }) => (
                 onPress={() => onQuantityChange(item.id, item.quantity + 1)}
                 style={styles.quantityButton}
             >
-                <PlusIcon width={rw(20)} height={rw(20)} />
+                <PlusIcon width={rw(32)} height={rw(32)} />
             </TouchableOpacity>
         </View>
     </View>

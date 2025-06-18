@@ -1,28 +1,18 @@
-//
-//  LiveActivityLiveActivity.swift
-//  LiveActivity
-//
-//  Created by Saif Siddiqui on 16/06/25.
-//
-
 import ActivityKit
 import WidgetKit
 import SwiftUI
 
 struct LiveActivityAttributes: ActivityAttributes {
     public struct ContentState: Codable, Hashable {
-        // Dynamic stateful properties about your activity go here!
         var emoji: String
     }
 
-    // Fixed non-changing properties about your activity go here!
     var name: String
 }
 
 struct LiveActivityLiveActivity: Widget {
     var body: some WidgetConfiguration {
         ActivityConfiguration(for: LiveActivityAttributes.self) { context in
-            // Lock screen/banner UI goes here
             VStack {
                 Text("Hello \(context.state.emoji)")
             }
@@ -31,20 +21,56 @@ struct LiveActivityLiveActivity: Widget {
 
         } dynamicIsland: { context in
             DynamicIsland {
-                // Expanded UI goes here.  Compose the expanded UI through
-                // various regions, like leading/trailing/center/bottom
                 DynamicIslandExpandedRegion(.leading) {
-                    Text("Leading")
+                    Image(systemName: "takeoutbag.and.cup.and.straw.fill")
+                        .foregroundColor(.orange)
+                        .font(.system(size: 16))
                 }
                 DynamicIslandExpandedRegion(.trailing) {
-                    Text("Trailing")
+                    Text("$19.90")
+                        .foregroundColor(.white)
+                        .font(.headline)
+                }
+                DynamicIslandExpandedRegion(.center) {
+                    Text("BurgerHouse")
+                        .foregroundColor(.gray)
+                        .font(.caption)
+                    Text("Cheeseburger Menu x2")
+                        .foregroundColor(.white)
+                        .font(.headline)
                 }
                 DynamicIslandExpandedRegion(.bottom) {
-                    Text("Bottom \(context.state.emoji)")
-                    // more content
+                    HStack {
+                        Image(systemName: "person.circle.fill")
+                            .foregroundColor(.gray)
+                            .font(.system(size: 24))
+                        VStack(alignment: .leading) {
+                            Text("Kadir's ETA")
+                                .foregroundColor(.white)
+                                .font(.caption)
+                            Text("8 min \(context.state.emoji)")
+                                .foregroundColor(.cyan)
+                                .font(.headline)
+                        }
+                        Spacer()
+                        Image(systemName: "message.fill")
+                            .foregroundColor(.cyan)
+                            .font(.system(size: 20))
+                            .padding(.horizontal, 4)
+                        Image(systemName: "phone.fill")
+                            .foregroundColor(.cyan)
+                            .font(.system(size: 20))
+                    }
+                    .padding(.horizontal, 8) // Added horizontal padding
+                    Text("©BurgerHouse Inc.")
+                        .foregroundColor(.gray)
+                        .font(.caption2)
+                        .padding(.top, 4)
                 }
             } compactLeading: {
-                Text("L")
+                Image(systemName: "takeoutbag.and.cup.and.straw.fill")
+                    .foregroundColor(.orange)
+                    .font(.system(size: 16))
             } compactTrailing: {
                 Text("8 min")
             } minimal: {

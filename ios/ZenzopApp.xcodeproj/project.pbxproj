@@ -10,10 +10,6 @@
 		07108CD22E00570D00B6C9BF /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0748F2B92E000FCC00FDB3B4 /* WidgetKit.framework */; };
 		07108CD32E00570D00B6C9BF /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0748F2BB2E000FCC00FDB3B4 /* SwiftUI.framework */; };
 		07108CE42E00571200B6C9BF /* LiveActivityExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 07108CD12E00570D00B6C9BF /* LiveActivityExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		0748F2BA2E000FCC00FDB3B4 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0748F2B92E000FCC00FDB3B4 /* WidgetKit.framework */; };
-		0748F2BC2E000FCC00FDB3B4 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0748F2BB2E000FCC00FDB3B4 /* SwiftUI.framework */; };
-		0748F2CD2E000FCD00FDB3B4 /* OrderTrackingWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 0748F2B82E000FCC00FDB3B4 /* OrderTrackingWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		0748F2DA2E00134000FDB3B4 /* LiveActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0748F2D92E00134000FDB3B4 /* LiveActivityManager.swift */; };
 		0C80B921A6F3F58F76C31292 /* libPods-ZenzopApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-ZenzopApp.a */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
@@ -32,13 +28,6 @@
 			remoteGlobalIDString = 07108CD02E00570D00B6C9BF;
 			remoteInfo = LiveActivityExtension;
 		};
-		0748F2CB2E000FCD00FDB3B4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 0748F2B72E000FCC00FDB3B4;
-			remoteInfo = OrderTrackingWidgetExtension;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -48,7 +37,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				0748F2CD2E000FCD00FDB3B4 /* OrderTrackingWidgetExtension.appex in Embed Foundation Extensions */,
 				07108CE42E00571200B6C9BF /* LiveActivityExtension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
@@ -58,13 +46,9 @@
 
 /* Begin PBXFileReference section */
 		07108CD12E00570D00B6C9BF /* LiveActivityExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LiveActivityExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		0748F2B82E000FCC00FDB3B4 /* OrderTrackingWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OrderTrackingWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		0748F2B92E000FCC00FDB3B4 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		0748F2BB2E000FCC00FDB3B4 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		0748F2D32E00102B00FDB3B4 /* ZenzopApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = ZenzopApp.entitlements; path = ZenzopApp/ZenzopApp.entitlements; sourceTree = "<group>"; };
-		0748F2D42E0010CB00FDB3B4 /* OrderTrackingWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OrderTrackingWidgetExtension.entitlements; sourceTree = "<group>"; };
-		0748F2D92E00134000FDB3B4 /* LiveActivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivityManager.swift; sourceTree = "<group>"; };
-		0748F2DB2E00136C00FDB3B4 /* LiveActivityManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LiveActivityManager.h; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* ZenzopApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZenzopApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ZenzopApp/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ZenzopApp/Info.plist; sourceTree = "<group>"; };
@@ -88,20 +72,6 @@
 			);
 			target = 07108CD02E00570D00B6C9BF /* LiveActivityExtension */;
 		};
-		0748F2D12E000FCD00FDB3B4 /* Exceptions for "OrderTrackingWidget" folder in "OrderTrackingWidgetExtension" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = 0748F2B72E000FCC00FDB3B4 /* OrderTrackingWidgetExtension */;
-		};
-		0748F2DD2E00145A00FDB3B4 /* Exceptions for "OrderTrackingWidget" folder in "ZenzopApp" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				OrderTrackingAttributes.swift,
-			);
-			target = 13B07F861A680F5B00A75B9A /* ZenzopApp */;
-		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -113,15 +83,6 @@
 			path = LiveActivity;
 			sourceTree = "<group>";
 		};
-		0748F2BD2E000FCC00FDB3B4 /* OrderTrackingWidget */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				0748F2DD2E00145A00FDB3B4 /* Exceptions for "OrderTrackingWidget" folder in "ZenzopApp" target */,
-				0748F2D12E000FCD00FDB3B4 /* Exceptions for "OrderTrackingWidget" folder in "OrderTrackingWidgetExtension" target */,
-			);
-			path = OrderTrackingWidget;
-			sourceTree = "<group>";
-		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,15 +92,6 @@
 			files = (
 				07108CD32E00570D00B6C9BF /* SwiftUI.framework in Frameworks */,
 				07108CD22E00570D00B6C9BF /* WidgetKit.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0748F2B52E000FCC00FDB3B4 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				0748F2BC2E000FCC00FDB3B4 /* SwiftUI.framework in Frameworks */,
-				0748F2BA2E000FCC00FDB3B4 /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -162,8 +114,6 @@
 				761780EC2CA45674006654EE /* AppDelegate.swift */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
-				0748F2D92E00134000FDB3B4 /* LiveActivityManager.swift */,
-				0748F2DB2E00136C00FDB3B4 /* LiveActivityManager.h */,
 			);
 			name = ZenzopApp;
 			sourceTree = "<group>";
@@ -200,10 +150,8 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				0748F2D42E0010CB00FDB3B4 /* OrderTrackingWidgetExtension.entitlements */,
 				13B07FAE1A68108700A75B9A /* ZenzopApp */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
-				0748F2BD2E000FCC00FDB3B4 /* OrderTrackingWidget */,
 				07108CD42E00570D00B6C9BF /* LiveActivity */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
@@ -219,7 +167,6 @@
 			isa = PBXGroup;
 			children = (
 				13B07F961A680F5B00A75B9A /* ZenzopApp.app */,
-				0748F2B82E000FCC00FDB3B4 /* OrderTrackingWidgetExtension.appex */,
 				07108CD12E00570D00B6C9BF /* LiveActivityExtension.appex */,
 			);
 			name = Products;
@@ -253,30 +200,8 @@
 				07108CD42E00570D00B6C9BF /* LiveActivity */,
 			);
 			name = LiveActivityExtension;
-			packageProductDependencies = (
-			);
 			productName = LiveActivityExtension;
 			productReference = 07108CD12E00570D00B6C9BF /* LiveActivityExtension.appex */;
-			productType = "com.apple.product-type.app-extension";
-		};
-		0748F2B72E000FCC00FDB3B4 /* OrderTrackingWidgetExtension */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 0748F2D22E000FCD00FDB3B4 /* Build configuration list for PBXNativeTarget "OrderTrackingWidgetExtension" */;
-			buildPhases = (
-				0748F2B42E000FCC00FDB3B4 /* Sources */,
-				0748F2B52E000FCC00FDB3B4 /* Frameworks */,
-				0748F2B62E000FCC00FDB3B4 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				0748F2BD2E000FCC00FDB3B4 /* OrderTrackingWidget */,
-			);
-			name = OrderTrackingWidgetExtension;
-			productName = OrderTrackingWidgetExtension;
-			productReference = 0748F2B82E000FCC00FDB3B4 /* OrderTrackingWidgetExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 		13B07F861A680F5B00A75B9A /* ZenzopApp */ = {
@@ -295,7 +220,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				0748F2CC2E000FCD00FDB3B4 /* PBXTargetDependency */,
 				07108CE32E00571200B6C9BF /* PBXTargetDependency */,
 			);
 			name = ZenzopApp;
@@ -313,9 +237,6 @@
 				LastUpgradeCheck = 1210;
 				TargetAttributes = {
 					07108CD02E00570D00B6C9BF = {
-						CreatedOnToolsVersion = 16.4;
-					};
-					0748F2B72E000FCC00FDB3B4 = {
 						CreatedOnToolsVersion = 16.4;
 					};
 					13B07F861A680F5B00A75B9A = {
@@ -337,7 +258,6 @@
 			projectRoot = "";
 			targets = (
 				13B07F861A680F5B00A75B9A /* ZenzopApp */,
-				0748F2B72E000FCC00FDB3B4 /* OrderTrackingWidgetExtension */,
 				07108CD02E00570D00B6C9BF /* LiveActivityExtension */,
 			);
 		};
@@ -345,13 +265,6 @@
 
 /* Begin PBXResourcesBuildPhase section */
 		07108CCF2E00570D00B6C9BF /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0748F2B62E000FCC00FDB3B4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -464,18 +377,10 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		0748F2B42E000FCC00FDB3B4 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		13B07F871A680F5B00A75B9A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0748F2DA2E00134000FDB3B4 /* LiveActivityManager.swift in Sources */,
 				761780ED2CA45674006654EE /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -487,11 +392,6 @@
 			isa = PBXTargetDependency;
 			target = 07108CD02E00570D00B6C9BF /* LiveActivityExtension */;
 			targetProxy = 07108CE22E00571200B6C9BF /* PBXContainerItemProxy */;
-		};
-		0748F2CC2E000FCD00FDB3B4 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 0748F2B72E000FCC00FDB3B4 /* OrderTrackingWidgetExtension */;
-			targetProxy = 0748F2CB2E000FCD00FDB3B4 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -572,93 +472,6 @@
 				MARKETING_VERSION = 1.0;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.zenzop.LiveActivity;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
-		0748F2CF2E000FCD00FDB3B4 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_ENTITLEMENTS = OrderTrackingWidgetExtension.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = AT7U484VTQ;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = OrderTrackingWidget/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = OrderTrackingWidget;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.zenzop.ordertrackingwidget;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		0748F2D02E000FCD00FDB3B4 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_ENTITLEMENTS = OrderTrackingWidgetExtension.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = AT7U484VTQ;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = OrderTrackingWidget/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = OrderTrackingWidget;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.zenzop.ordertrackingwidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -880,15 +693,6 @@
 			buildConfigurations = (
 				07108CE52E00571200B6C9BF /* Debug */,
 				07108CE62E00571200B6C9BF /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		0748F2D22E000FCD00FDB3B4 /* Build configuration list for PBXNativeTarget "OrderTrackingWidgetExtension" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				0748F2CF2E000FCD00FDB3B4 /* Debug */,
-				0748F2D02E000FCD00FDB3B4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

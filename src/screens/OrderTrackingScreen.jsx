@@ -12,7 +12,7 @@ import { CommonHeader, ProgressBar, DeliveryDetails, ShareSection, InviteFriends
 import CookingIllustration from '../assets/svgs/CookingIllustration';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import CallIcon from '../assets/svgs/CallIcon';
 import { rw } from '../utils/responsiveUtil';
 import { FONTS } from '../utils/fonts';
@@ -26,6 +26,7 @@ const DELIVERY_TIMER_KEY = 'deliveryTimer';
 
 const OrderTrackingScreen = () => {
     const route = useRoute();
+    const naviation = useNavigation()
     const { cartItems: routeCartItems = [], subtotal: routeSubtotal = 0 } = route.params || {};
     const [cartItems, setCartItems] = useState(routeCartItems);
     const [subtotal, setSubtotal] = useState(routeSubtotal);
@@ -107,6 +108,7 @@ const OrderTrackingScreen = () => {
                         await AsyncStorage.removeItem(ORDER_STORAGE_KEY);
                         setArrivalTime('');
                         setLatestArrivalTime('');
+                        naviation.navigate('DeliveryScreen')
                     } else if (elapsed >= 480) {
                         setTrackingState('at_the_address');
                     } else if (elapsed >= 10) {
@@ -188,6 +190,7 @@ const OrderTrackingScreen = () => {
                         clearInterval(timerRef.current);
                         setArrivalTime('');
                         setLatestArrivalTime('');
+                        naviation.navigate('DeliveredScreen')
                         return 0;
                     } else if (elapsed >= 480 && trackingState !== 'at_the_address') {
                         setTrackingState('at_the_address');
@@ -529,7 +532,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: 10,
+        // marginBottom: 10,
     },
     viewReceipt: {
         color: '#00C851',

@@ -14,7 +14,7 @@ const CommonHeader = () => {
     const cartItems = useSelector(state => state.cart.items);
     const cartItemCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
     const isCartScreen = route.name === 'CartScreen';
-    const isOrderTrackingScreen = route.name === 'OrderTrackingScreen';
+    const isOrderTrackingScreen = route.name === 'OrderTrackingScreen' || 'DeliveryScreen';
 
     const handleBackPress = () => {
         navigation.goBack();

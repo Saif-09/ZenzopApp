@@ -6,6 +6,7 @@ import Homepage from '../screens/Homepage';
 import ProductDetailsScreen from '../screens/ProductDetailsScreen';
 import CartScreen from '../screens/CartScreen';
 import OrderTrackingScreen from '../screens/OrderTrackingScreen';
+import DeliveredScreen from '../screens/DeliveredScreen';
 const Stack = createStackNavigator();
 
 
@@ -36,6 +37,10 @@ const StackNavigator = () => {
             <Stack.Screen
                 name="OrderTrackingScreen"
                 component={OrderTrackingScreen}
+            />
+            <Stack.Screen
+                name="DeliveredScreen"
+                component={DeliveredScreen}
             />
         </Stack.Navigator>
     )
